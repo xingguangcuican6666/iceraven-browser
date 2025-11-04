@@ -56,7 +56,7 @@ jobs:
       - name: Setup build tool version variable
         shell: bash
         run: |
-          BUILD_TOOL_VERSION=$(ls /usr/local/lib/android/sdk/build-tools/ | tail -n 1)
+          BUILD_TOOL_VERSION=34.0.0
           echo "BUILD_TOOL_VERSION=$BUILD_TOOL_VERSION" >> $GITHUB_ENV
 
       - name: Create signed APKs
