@@ -53,37 +53,20 @@ jobs:
           gradle-executable: /usr/bin/time
           arguments: -v ./gradlew app:assemblefenixForkRelease -x lintVitalFenixForkRelease -PversionName=${{ env.VERSION_NAME }} --stacktrace
 
-      - name: Setup build tool version variable
-        shell: bash
-        run: |
-          BUILD_TOOL_VERSION=34.0.0
-          echo "BUILD_TOOL_VERSION=$BUILD_TOOL_VERSION" >> $GITHUB_ENV
-
-      - name: Create signed APKs
-        uses: abhijitvalluri/sign-apks@v0.8
-        with:
-          releaseDirectory: gradle/build/app/outputs/apk/fenix/forkRelease/
-          signingKeyBase64: ${{ secrets.DEBUG_SIGNING_KEY }}
-          alias: ${{ secrets.DEBUG_ALIAS }}
-          keyStorePassword: ${{ secrets.DEBUG_KEY_STORE_PASSWORD }}
-          keyPassword: ${{ secrets.DEBUG_KEY_PASSWORD }}
-        env:
-          BUILD_TOOLS_VERSION: ${{ env.BUILD_TOOL_VERSION }}
-
       - name: Upload arm64 apk
         uses: actions/upload-artifact@v4
         with:
-          path: gradle/build/app/outputs/apk/fenix/forkRelease/app-fenix-arm64-v8a-forkRelease.apk
-          name: ${{ env.VERSION_NAME }}-browser-arm64-v8a-forkRelease.apk
+          path: gradle/build/app/outputs/apk/fenix/forkRelease/app-fenix-arm64-v8a-forkRelease-unsigned.apk
+          name: ${{ env.VERSION_NAME }}-browser-arm64-v8a-forkRelease-unsigned.apk
 
       - name: Upload armeabi apk
         uses: actions/upload-artifact@v4
         with:
-          path: gradle/build/app/outputs/apk/fenix/forkRelease/app-fenix-armeabi-v7a-forkRelease.apk
-          name: ${{ env.VERSION_NAME }}-browser-armeabi-v7a-forkRelease.apk
+          path: gradle/build/app/outputs/apk/fenix/forkRelease/app-fenix-armeabi-v7a-forkRelease-unsigned.apk
+          name: ${{ env.VERSION_NAME }}-browser-armeabi-v7a-forkRelease-unsigned.apk
 
       - name: Upload x86_64 apk
         uses: actions/upload-artifact@v4
         with:
-          path: gradle/build/app/outputs/apk/fenix/forkRelease/app-fenix-x86_64-forkRelease.apk
-          name: ${{ env.VERSION_NAME }}-browser-x86_64-forkRelease.apk
+          path: gradle/build/app/outputs/apk/fenix/forkRelease/app-fenix-x86_64-forkRelease-unsigned.apk
+          name: ${{ env.VERSION_NAME }}-browser-x86_64-forkRelease-unsigned.apk
