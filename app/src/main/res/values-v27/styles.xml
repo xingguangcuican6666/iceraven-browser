@@ -59,4 +59,11 @@
         <item name="android:windowLightNavigationBar">@bool/theme_is_light</item>
         <item name="android:navigationBarColor">@color/fx_mobile_layer_color_1</item>
     </style>
+
+    <!-- Fullscreen theme for ExternalAppBrowserActivity with cutout support -->
+    <style name="ExternalAppBrowserTheme" parent="NormalTheme">
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>
+    </style>
 </resources>
