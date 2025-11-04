@@ -754,4 +754,10 @@
         <item name="android:background">@android:color/transparent</item>
         <item name="android:colorBackgroundCacheHint">@null</item>
     </style>
+
+    <!-- Fullscreen theme for ExternalAppBrowserActivity -->
+    <style name="ExternalAppBrowserTheme" parent="NormalTheme">
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
 </resources>
