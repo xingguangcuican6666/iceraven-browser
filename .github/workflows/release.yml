@@ -51,24 +51,6 @@ jobs:
           gradle-executable: /usr/bin/time
           arguments: -v ./gradlew app:assemblefenixForkRelease -x lintVitalFenixForkRelease -PversionName=${{ env.VERSION_NAME }} --stacktrace
 
-      - name: Setup build tool version variable
-        shell: bash
-        run: |
-          BUILD_TOOL_VERSION=$(ls /usr/local/lib/android/sdk/build-tools/ | tail -n 1)
-          echo "BUILD_TOOL_VERSION=$BUILD_TOOL_VERSION" >> $GITHUB_ENV
-
-      - name: Create signed APKs
-        if: "contains(toJSON(github.event.ref_type), 'tag') && contains(toJSON(github.event.ref), 'iceraven')"
-        uses: abhijitvalluri/sign-apks@v0.8
-        with:
-          releaseDirectory: gradle/build/app/outputs/apk/fenix/forkRelease/
-          signingKeyBase64: ${{ secrets.DEBUG_SIGNING_KEY }}
-          alias: ${{ secrets.DEBUG_ALIAS }}
-          keyStorePassword: ${{ secrets.DEBUG_KEY_STORE_PASSWORD }}
-          keyPassword: ${{ secrets.DEBUG_KEY_PASSWORD }}
-        env:
-          BUILD_TOOLS_VERSION: ${{ env.BUILD_TOOL_VERSION }}
-
       - name: Create changelog
         if: "contains(toJSON(github.event.ref_type), 'tag') && contains(toJSON(github.event.ref), 'iceraven')"
         run: |
@@ -111,8 +93,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: gradle/build/app/outputs/apk/fenix/forkRelease/app-fenix-arm64-v8a-forkRelease.apk
-          asset_name: ${{ github.event.ref }}-browser-arm64-v8a-forkRelease.apk
+          asset_path: gradle/build/app/outputs/apk/fenix/forkRelease/app-fenix-arm64-v8a-forkRelease-unsigned.apk
+          asset_name: ${{ github.event.ref }}-browser-arm64-v8a-forkRelease-unsigned.apk
           asset_content_type: application/vnd.android.package-archive
 
       - name: Upload armeabi apk
@@ -122,8 +104,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: gradle/build/app/outputs/apk/fenix/forkRelease/app-fenix-armeabi-v7a-forkRelease.apk
-          asset_name: ${{ github.event.ref }}-browser-armeabi-v7a-forkRelease.apk
+          asset_path: gradle/build/app/outputs/apk/fenix/forkRelease/app-fenix-armeabi-v7a-forkRelease-unsigned.apk
+          asset_name: ${{ github.event.ref }}-browser-armeabi-v7a-forkRelease-unsigned.apk
           asset_content_type: application/vnd.android.package-archive
 
       - name: Upload x86_64 apk
@@ -133,6 +115,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: gradle/build/app/outputs/apk/fenix/forkRelease/app-fenix-x86_64-forkRelease.apk
-          asset_name: ${{ github.event.ref }}-browser-x86_64-forkRelease.apk
+          asset_path: gradle/build/app/outputs/apk/fenix/forkRelease/app-fenix-x86_64-forkRelease-unsigned.apk
+          asset_name: ${{ github.event.ref }}-browser-x86_64-forkRelease-unsigned.apk
           asset_content_type: application/vnd.android.package-archive
